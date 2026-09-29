@@ -1,3 +1,4 @@
+import pandas as pd
 import plotly.express as px
 import streamlit as st
 
@@ -52,8 +53,9 @@ c5.metric("vs average", f"{summary['change_from_average']:.1%}")
 
 if not hist.empty:
     fig = px.line(hist, y="price", markers=True, title="Price history")
-    if row["target_price"] == row["target_price"]:
-        fig.add_hline(y=float(row["target_price"]), line_dash="dash", annotation_text="Target")
+    target_price = row["target_price"]
+    if target_price is not None and not pd.isna(target_price):
+        fig.add_hline(y=float(target_price), line_dash="dash", annotation_text="Target")
     st.plotly_chart(fig, use_container_width=True)
 
 st.caption("PriceWatch stores observations locally in SQLite. Amazon page structure and availability can change, so retrieval may occasionally fail.")
